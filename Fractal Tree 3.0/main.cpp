@@ -19,6 +19,7 @@ int main(){
 
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Fractal Tree (Custom)");
 
+
 	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width - screenWidth) / 2.f, 0));
 
 	drawTree(n, window);

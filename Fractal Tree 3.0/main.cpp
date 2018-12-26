@@ -23,6 +23,7 @@ int main(){
 
 	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width - screenWidth) / 2.f, 0));
 
+
 	drawTree(n, window);
 
 	while (window.isOpen())

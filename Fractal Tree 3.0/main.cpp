@@ -17,6 +17,7 @@ int main(){
 
 	node* n = createTree();
 
+
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Fractal Tree (Custom)");
 
 

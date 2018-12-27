@@ -5,20 +5,21 @@
 #include "Global.h"
 
 
-int random(int begin, int end);
+int randomI(int begin, int end);
+float randomF(float begin, float end);
 int myrandom();
 
 class node{
 public:
-	node(const unsigned n = 1, const float xx = 0, const float yy = 0): x(xx), y(yy){
+	node(const unsigned n = 1, const float xx = 0.f, const float yy = 0.f, const float l = 0.f): x(xx), y(yy), L(l){
 		create(n);
 	}
 
 	node*& operator[](const unsigned i) { return to[i]; }
 	unsigned getN() { return N; }
-	float X() { return x; }
-	float Y() { return y; }
-	float length() { return L; }
+	float& X() { return x; }
+	float& Y() { return y; }
+	float& length() { return L; }
 
 	~node(){
 		for(unsigned i=0; i<N; i++)
@@ -43,25 +44,25 @@ public:
 		return size + 1;
 	}
 
-	void generate(const float prob){
+	/*void generate(const float prob){
 		for(unsigned i=0; i<N; i++){
 			if(to[i]==NULL && (float)(rand())/RAND_MAX <= prob){
 				to[i]=new node(N);
 				to[i]->generate(prob);
 			}
 		}
-	}
+	}*/
 
-	void tree(const float length, const float angle, const float spread = 30.) {
+	void tree(const float angle, const float spread = DEFAULT_ANGLE) {
 		if (N == 0) create(myrandom());
 
 		for (unsigned i = 0; i < N; i++) {
 			if (to[i] == NULL) {
 				float new_angle = angle + (N == 1 ? 0.f : (i / ((N - 1.f) / 2.f) - 1.f)) * spread;
-				float newLength = (float)(random(50, 80)) / 100.f * length;
+				float newLength = randomF(min_contraction, max_contraction) * L;
 
 				create_branch(i, newLength, new_angle);
-				if (minLength <= newLength) to[i]->tree(newLength, new_angle, spread);
+				if (minLength <= newLength * max_contraction) to[i]->tree(new_angle, spread);
 			}
 		}
 	}
@@ -71,10 +72,8 @@ public:
 		float new_x = x + length * cos(angle * PI / 180.f);
 		float new_y = y + length * sin(angle * PI / 180.f);
 
-		int a = (minLength <= length) ? myrandom() : 0;
-		to[i] = new node(a, new_x, new_y);
-
-		to[i]->L = length;
+		int a = (minLength <= length * max_contraction) ? myrandom() : 0;
+		to[i] = new node(a, new_x, new_y, length);
 	}
 
 	void create(const unsigned n) {
@@ -89,14 +88,9 @@ public:
 		for (unsigned i = 0; i < N; i++)
 			to[i] = NULL;
 	}
-	
-	static void set_minLength(float l);
-
 private:
 	float x,y;
 	unsigned N; //how many branches
 	node** to; 	//pointer to N new nodes
 	float L;
-
-	static float minLength;
 };

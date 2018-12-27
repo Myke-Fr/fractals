@@ -10,6 +10,26 @@
 #define delay 30.f
 
 
-const unsigned screenWidth = sf::VideoMode::getDesktopMode().height;
-const unsigned screenHeight = sf::VideoMode::getDesktopMode().height;
+const unsigned screenWidth = sf::VideoMode::getDesktopMode().width;
+const unsigned screenHeight = sf::VideoMode::getDesktopMode().height * 10/11.f;
+
+const int minLength = 8;
+
+const float min_contraction = 0.5f;
+const float max_contraction = 0.7f;
+
+const float border = 0.f;
+
+const float dist_factor = 1.f / (1.f - max_contraction) - 1.f;
+
+const float DEFAULT_SIZE = 600 * sf::VideoMode::getDesktopMode().height / 2160;
+								
+static float minLength_G = 30.f;
+
+const float DEFAULT_ZOOM = 0.9f;
+
+const float DEFAULT_ANGLE = 30.f;
+
+const int MAX_BRANCHES = 4;
+const int MIN_BRANCHES = 1;
 
